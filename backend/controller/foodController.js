@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import foodModel from "../models/foodModel.js";
 
 // Add food item
@@ -11,13 +12,13 @@ const addFood = async (req, res) => {
             description: req.body.description,
             price: req.body.price,
             category: req.body.category,
-            image: image_filename  // ✅ fixed typo from iamge → image
+            image: image_filename
         });
 
         await food.save();
         res.json({ success: true, message: "Food added" });
     } catch (error) {
-        console.log(error);
+        console.error("Add food error:", error);
         res.status(500).json({ success: false, message: "Error adding food" });
     }
 };
@@ -28,7 +29,7 @@ const listFood = async (req, res) => {
         const foods = await foodModel.find({});
         res.json({ success: true, data: foods });
     } catch (error) {
-        console.log(error);
+        console.error("List food error:", error);
         res.status(500).json({ success: false, message: "Error retrieving food list" });
     }
 };
@@ -41,17 +42,20 @@ const removeFood = async (req, res) => {
             return res.status(404).json({ success: false, message: "Food not found" });
         }
 
-        // Delete the image file
-        fs.unlink(`uploads/${food.image}`, (err) => {
-            if (err) console.log("Image delete error:", err);
-        });
+        // Safely delete the image file (only if it exists)
+        const imagePath = path.join("uploads", food.image);
+        if (fs.existsSync(imagePath)) {
+            fs.unlink(imagePath, (err) => {
+                if (err) console.error("Image delete error:", err);
+            });
+        }
 
         // Delete the food document
         await foodModel.findByIdAndDelete(req.body.id);
 
         res.json({ success: true, message: "Food item removed" });
     } catch (error) {
-        console.log(error);
+        console.error("Remove food error:", error);
         res.status(500).json({ success: false, message: "Error deleting food" });
     }
 };
