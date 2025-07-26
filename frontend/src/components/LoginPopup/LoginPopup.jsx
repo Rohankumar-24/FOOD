@@ -8,7 +8,7 @@ const LoginPopup = ({ setShowLogin }) => {
   const { setToken } = useContext(StoreContext);
   
   // Use environment URL with fallback
-  const url = import.meta.env.VITE_SERVER_URL || 'http://localhost:8000';
+  const url = import.meta.env.VITE_SERVER_URL || 'http://localhost:8001';
   
   const [currentState, setCurrentState] = useState('Login');
   const [data, setData] = useState({

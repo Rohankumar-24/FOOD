@@ -1,8 +1,7 @@
 .add {
-  width: 50%;
-  margin-left: max(5vw, 25px);
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
   background: linear-gradient(135deg, #fffdfc, #ffece6);
   padding: 40px;
   border-radius: 20px;
@@ -11,6 +10,7 @@
   font-family: "Poppins", sans-serif;
   font-size: 16px;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .add form {
@@ -20,7 +20,8 @@
 }
 
 .add-img-upload img {
-  width: 140px;
+  width: 100%;
+  max-width: 140px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
@@ -32,7 +33,7 @@
 
 .add-product-name,
 .add-product-description {
-  width: max(40%, 280px);
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -45,6 +46,8 @@
   font-size: 1rem;
   background-color: #fff;
   transition: border 0.3s ease, box-shadow 0.3s ease;
+  resize: vertical;
+  width: 100%;
 }
 
 .add-product-name input:focus,
@@ -56,13 +59,14 @@
 
 .add-category-price {
   display: flex;
-  gap: 30px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .add-category-price select,
 .add-category-price input {
-  max-width: 140px;
+  flex: 1 1 120px;
+  min-width: 100px;
   padding: 12px;
   border: 2px solid #ffd2c3;
   border-radius: 10px;
@@ -78,6 +82,7 @@
 }
 
 .add-btn {
+  width: 100%;
   max-width: 160px;
   padding: 12px;
   background-color: #ff6b4a;
