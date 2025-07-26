@@ -1,0 +1,23 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 4%;
+}
+
+.navbar .logo{
+    width: max(10%,80px);
+}
+
+.navbar .profile{
+    width: 40px;
+}
+
+.footer-logo {
+  font-size: 35px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: #ff4c4c;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
