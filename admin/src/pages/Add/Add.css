@@ -1,42 +1,96 @@
-.add{
-    width: 70%;
-    margin-left: max(5vw, 25px);
-    margin-top: 50px;
-    color: #6d6d6d;
-    font-size: 16px;
+.add {
+  width: 50%;
+  margin-left: max(5vw, 25px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #fffdfc, #ffece6);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(180, 84, 29, 0.1);
+  color: #4a4a4a;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.add form{
-    gap: 20px;
+.add form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.add-img-upload img{
-    width: 120px;
+.add-img-upload img {
+  width: 140px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
 }
 
-.add-product-name, .add-product-description{
-    width: max(40%,280px);
+.add-img-upload img:hover {
+  transform: scale(1.05);
 }
 
-.add-product-name input , .add-product-description textarea{
-    padding: 10px;
+.add-product-name,
+.add-product-description {
+  width: max(40%, 280px);
+  display: flex;
+  flex-direction: column;
 }
 
-.add-category-price{
-    display: flex;
-    gap: 30px;
+.add-product-name input,
+.add-product-description textarea {
+  padding: 12px;
+  border: 2px solid #ffd2c3;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #fff;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.add-category-price select, .add-category-price input{
-    max-width: 120px ;
-    padding: 10px;
+.add-product-name input:focus,
+.add-product-description textarea:focus {
+  border-color: #ff6b4a;
+  box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.2);
+  outline: none;
 }
 
-.add-btn{
-    max-width: 120px;
-    border: none;
-    padding: 10px;
-    background-color: black;
-    color: white;
-    cursor: pointer;
+.add-category-price {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.add-category-price select,
+.add-category-price input {
+  max-width: 140px;
+  padding: 12px;
+  border: 2px solid #ffd2c3;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.add-category-price select:focus,
+.add-category-price input:focus {
+  border-color: #ff6b4a;
+  box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.2);
+  outline: none;
+}
+
+.add-btn {
+  max-width: 160px;
+  padding: 12px;
+  background-color: #ff6b4a;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover {
+  background-color: #e5533d;
+  transform: translateY(-2px);
 }
