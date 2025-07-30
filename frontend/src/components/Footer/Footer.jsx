@@ -21,7 +21,7 @@ const Footer = () => {
   <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
     <img src={assets.facebook_icon} alt="Facebook" />
   </a>
-  <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer">
+  <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
     <img src={assets.twitter_icon} alt="Twitter" />
   </a>
   <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
