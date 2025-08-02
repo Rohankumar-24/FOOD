@@ -26,11 +26,11 @@ const orderSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now, //  No parentheses
+    default: Date.now, 
   },
   payment: {
     type: Boolean,
-    default: false, // Fixed typo
+    default: false, 
   },
 });
 

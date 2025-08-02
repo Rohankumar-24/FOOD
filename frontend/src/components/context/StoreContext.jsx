@@ -66,7 +66,7 @@ const StoreContextProvider = (props) => {
     return total;
   };
 
-  // ✅ Fetch Food List
+  //  Fetch Food List
   const fetchFoodList = async () => {
     try {
       const res = await axios.get(`${url}/api/food/list`);
@@ -78,7 +78,7 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // ✅ Load Cart from Backend
+  //  Load Cart from Backend
   const loadCartData = async (userToken) => {
     try {
       const res = await axios.post(
@@ -94,7 +94,7 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // ✅ On Load - fetch food and cart
+  //  On Load - fetch food and cart
   useEffect(() => {
     const init = async () => {
       await fetchFoodList();

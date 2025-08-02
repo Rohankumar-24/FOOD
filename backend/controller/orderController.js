@@ -5,10 +5,10 @@ import orderModel from "./../models/orderModel.js";
 import userModel from "./../models/userModel.js";
 import Stripe from "stripe";
 
-// ✅ Initialize Stripe with secret key from .env
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const frontend_url = "http://localhost:8001"; // You can move this to .env too
+const frontend_url = "http://localhost:8001"; 
 
 // Place Order
 const placeOrder = async (req, res) => {

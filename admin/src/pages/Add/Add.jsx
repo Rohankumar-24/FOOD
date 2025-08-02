@@ -26,7 +26,7 @@ const Add = ({ url }) => {
     formData.append("description", data.description);
     formData.append("price", Number(data.price));
     formData.append("category", data.category);
-    formData.append("image", image); // ✅ use image, not data.image
+    formData.append("image", image); 
 
     try {
       const response = await axios.post(`${url}/api/food/add`, formData);

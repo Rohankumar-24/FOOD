@@ -43,7 +43,7 @@
   color: #ff1c1c;
 }
 
-/* Optional: Navbar menu styles */
+
 .navbar-menu {
   display: flex;
   gap: 24px;
@@ -64,7 +64,7 @@
   color: #ff4c4c;
 }
 
-/* Responsive tweaks */
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

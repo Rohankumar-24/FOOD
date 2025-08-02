@@ -8,10 +8,10 @@ const foodSchema = new mongoose.Schema(
     image: { type: String, required: true },
     category: { type: String, required: true },
   },
-  { timestamps: true } // ✅ Adds createdAt and updatedAt
+  { timestamps: true } 
 );
 
-// Avoid overwrite issue in development (like with Next.js, etc.)
+
 const foodModel = mongoose.models.food || mongoose.model("food", foodSchema);
 
 export default foodModel;

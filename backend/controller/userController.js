@@ -3,14 +3,14 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
-// 🔐 JWT helper
+// JWT helper
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "7d", // optional: token expires in 7 days
+    expiresIn: "7d", 
   });
 };
 
-// 🟩 Register a new user
+// Register a new user
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -67,7 +67,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-// 🟦 Login existing user
+//  Login existing user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 

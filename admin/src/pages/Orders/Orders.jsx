@@ -4,8 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { assets } from "./../../../../frontend/src/assets/assets";
 
-// ✅ You need to define or import `url`. Example:
-const url = "http://localhost:8000"; // Replace this with your actual backend URL
+
+const url = "http://localhost:8000"; // Replace it with the actual backend URL
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

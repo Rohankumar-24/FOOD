@@ -17,7 +17,7 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 // app.use(cors());
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174"], // Allow both ports
+  origin: ["http://localhost:5173", "http://localhost:5174"], // frontend and admin url
   credentials: true
 }));
 

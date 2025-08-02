@@ -28,7 +28,7 @@ const List = ({ url }) => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        await fetchList(); // Only fetch list after successful delete
+        await fetchList(); 
       } else {
         throw new Error(response.data.message || "Error removing food.");
       }
