@@ -15,7 +15,13 @@ const port = process.env.PORT || 8000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174"], // Allow both ports
+  credentials: true
+}));
+
+
 app.use("/images", express.static("uploads"));
 
 // DB connection
