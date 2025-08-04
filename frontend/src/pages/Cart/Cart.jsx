@@ -70,17 +70,17 @@ const Cart = () => {
           <div>
             <div className="cart-total-detail">
               <p>Subtotal</p>
-              <p>Rs.{getTotalCartAmount().toFixed(2)}</p>
+              <p>Rs.{(getTotalCartAmount()* 83.25).toFixed(2)}</p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <p>Delivery Fee</p>
-              <p>Rs.{deliveryFee.toFixed(2)}</p>
+              <p>Rs.{(deliveryFee* 83.25).toFixed(2)}</p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <b>Total</b>
-              <b>Rs.{total.toFixed(2)}</b>
+              <b>Rs.{(total* 83.25).toFixed(2)}</b>
             </div>
           </div>
 
