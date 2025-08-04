@@ -7,7 +7,7 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const url = import.meta.env.VITE_SERVER_URL || "https://food-ln02.onrender.com";
+  const url = import.meta.env.VITE_SERVER_URL || "http://localhost:8000";
 
   //  Add to Cart
   const addToCart = async (itemId) => {
