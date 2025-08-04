@@ -4,8 +4,15 @@ import userModel from "./../models/userModel.js";
 const addToCart = async (req, res) => {
   try {
     const userData = await userModel.findById(req.body.userId);
-    const cartData = userData.cartData || {};
 
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const cartData = userData.cartData || {};
     const itemId = req.body.itemId;
 
     if (!cartData[itemId]) {
@@ -22,7 +29,7 @@ const addToCart = async (req, res) => {
     });
   } catch (error) {
     console.error("Add to cart error:", error);
-    res.json({
+    res.status(500).json({
       success: false,
       message: "Error adding item to cart",
     });
@@ -33,14 +40,20 @@ const addToCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const userData = await userModel.findById(req.body.userId);
-    const cartData = userData.cartData || {};
 
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const cartData = userData.cartData || {};
     const itemId = req.body.itemId;
 
     if (cartData[itemId] && cartData[itemId] > 0) {
       cartData[itemId] -= 1;
 
-      // Optional: Remove the item key if quantity is 0
       if (cartData[itemId] === 0) {
         delete cartData[itemId];
       }
@@ -59,7 +72,7 @@ const removeFromCart = async (req, res) => {
     }
   } catch (error) {
     console.error("Remove from cart error:", error);
-    res.json({
+    res.status(500).json({
       success: false,
       message: "Error removing item from cart",
     });
@@ -70,6 +83,14 @@ const removeFromCart = async (req, res) => {
 const getCart = async (req, res) => {
   try {
     const userData = await userModel.findById(req.body.userId);
+
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     const cartData = userData.cartData || {};
 
     res.json({
@@ -78,7 +99,7 @@ const getCart = async (req, res) => {
     });
   } catch (error) {
     console.error("Get cart error:", error);
-    res.json({
+    res.status(500).json({
       success: false,
       message: "Error fetching cart data",
     });
