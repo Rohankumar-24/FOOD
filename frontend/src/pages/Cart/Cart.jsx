@@ -9,16 +9,15 @@ const Cart = () => {
 
   const navigate = useNavigate();
 
-  
-  console.log("Cart Items:", cartItems);
-  console.log("Food List:", food_list);
+  const USD_TO_INR = 83.25;
+
+  const convertToINR = (usdAmount) => (usdAmount * USD_TO_INR).toFixed(2);
 
   if (!cartItems || !food_list) return <div>Loading...</div>;
 
-  const deliveryFee = getTotalCartAmount() === 0 ? 0 : 2;
-  const total = getTotalCartAmount() + deliveryFee;
+  const deliveryFeeUSD = getTotalCartAmount() === 0 ? 0 : 2;
+  const totalUSD = getTotalCartAmount() + deliveryFeeUSD;
 
-  
   const handleProceed = () => {
     if (getTotalCartAmount() > 0) {
       navigate("/order");
@@ -43,14 +42,15 @@ const Cart = () => {
         {food_list.map((item) => {
           const quantity = cartItems[item._id];
           if (quantity > 0) {
+            const itemTotalUSD = item.price * quantity;
             return (
               <div key={item._id} className="cart-items-item-wrapper">
                 <div className="cart-items-item">
                   <img src={`${url}/images/${item.image}`} alt={item.name} />
                   <p>{item.name}</p>
-                  <p>${item.price}</p>
+                  <p>₹{convertToINR(item.price)}</p>
                   <p>{quantity}</p>
-                  <p>${(item.price * quantity).toFixed(2)}</p>
+                  <p>₹{convertToINR(itemTotalUSD)}</p>
                   <p className="cross" onClick={() => removeFromCart(item._id)}>
                     ×
                   </p>
@@ -70,21 +70,20 @@ const Cart = () => {
           <div>
             <div className="cart-total-detail">
               <p>Subtotal</p>
-              <p>Rs.{(getTotalCartAmount()* 83.25).toFixed(2)}</p>
+              <p>₹{convertToINR(getTotalCartAmount())}</p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <p>Delivery Fee</p>
-              <p>Rs.{(deliveryFee* 83.25).toFixed(2)}</p>
+              <p>₹{convertToINR(deliveryFeeUSD)}</p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <b>Total</b>
-              <b>Rs.{(total* 83.25).toFixed(2)}</b>
+              <b>₹{convertToINR(totalUSD)}</b>
             </div>
           </div>
 
-          
           <button
             className="proceed-btn"
             disabled={getTotalCartAmount() === 0}
