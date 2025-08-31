@@ -10,21 +10,15 @@ import Verify from './pages/Verify/Verify'
 import MyOrders from './pages/MyOrders/MyOrders'
 import CarouselBanner from './components/CarouselBanner.jsx/CarouselBanner';
 
-
 const App = () => {
-
   const [showLogin, setShowLogin] = useState(false);
-  
+
   return (
     <>
     {showLogin? <LoginPopup setShowLogin={setShowLogin}/>:<></>}
     <div className='app'>
-      
       <Navbar setShowLogin={setShowLogin}/>
-
-      
       <Routes>
-        
         <Route path='/' element={<Home/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/order' element={<PlaceOrder/>}/>
@@ -32,7 +26,6 @@ const App = () => {
         <Route path='/myorders' element={<MyOrders/>}/>
       </Routes>
       <CarouselBanner/>
-      
     </div>
     <Footer/>
     </>
