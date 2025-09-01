@@ -9,7 +9,8 @@ const StoreContextProvider = ({ children }) => {
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState("");
 
-  const url = "http://localhost:8000"; // make sure backend runs on this port
+  // const url = "http://localhost:8000"; // make sure backend runs on this port
+  const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
