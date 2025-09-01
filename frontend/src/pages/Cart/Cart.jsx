@@ -1,51 +1,75 @@
 import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../components/context/StoreContext";
+import { useCurrency } from "../../components/context/CurrencyContext"; // Import currency context
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount, url, token } =
     useContext(StoreContext);
 
+  // Use centralized currency context instead of hardcoded rate
+  const { 
+    exchangeRate, 
+    rateChange, 
+    isLoading: currencyLoading, 
+    lastUpdated,
+    convertToINR,
+    formatPrice 
+  } = useCurrency();
+
   const navigate = useNavigate();
-
-  const USD_TO_INR = 83.25;
-
-  const convertToINR = (usdAmount) => (usdAmount * USD_TO_INR).toFixed(2);
 
   const handleProceed = () => {
     console.log("Proceed button clicked!");
     console.log("Cart total:", getTotalCartAmount());
     console.log("User token:", token);
     console.log("Cart items:", cartItems);
+    console.log("Current exchange rate:", exchangeRate);
 
-    
     if (!token) {
       alert("Please login to proceed to checkout");
       return;
     }
 
-    
     if (getTotalCartAmount() === 0) {
       alert("Your cart is empty. Please add items to proceed.");
       return;
     }
 
-    
     console.log("Navigating to /order...");
     navigate("/order");
   };
 
-  
   if (!food_list || food_list.length === 0) {
     return <div className="loading">Loading food items...</div>;
   }
 
   const deliveryFeeUSD = getTotalCartAmount() === 0 ? 0 : 2;
   const totalUSD = getTotalCartAmount() + deliveryFeeUSD;
-
-  
   const isCartEmpty = getTotalCartAmount() === 0;
+
+  // Helper functions for rate display
+  const getRateIcon = () => {
+    if (currencyLoading) return "⟳";
+    if (rateChange === 'up') return "↗️";
+    if (rateChange === 'down') return "↘️";
+    return "💱";
+  };
+
+  const getRateColor = () => {
+    if (rateChange === 'up') return "#22c55e";
+    if (rateChange === 'down') return "#ef4444";
+    return "#6b7280";
+  };
+
+  const formatLastUpdated = () => {
+    if (!lastUpdated) return "";
+    const minutes = Math.floor((new Date() - lastUpdated) / (1000 * 60));
+    if (minutes === 0) return "just now";
+    if (minutes === 1) return "1 min ago";
+    return `${minutes} mins ago`;
+  };
 
   return (
     <div className="cart">
@@ -74,9 +98,21 @@ const Cart = () => {
                   <div className="cart-items-item">
                     <img src={`${url}/images/${item.image}`} alt={item.name} />
                     <p>{item.name}</p>
-                    <p>₹{convertToINR(item.price)}</p>
+                    <p>
+                      {currencyLoading ? (
+                        "₹..."
+                      ) : (
+                        `₹${convertToINR(item.price)}`
+                      )}
+                    </p>
                     <p>{quantity}</p>
-                    <p>₹{convertToINR(itemTotalUSD)}</p>
+                    <p>
+                      {currencyLoading ? (
+                        "₹..."
+                      ) : (
+                        `₹${convertToINR(itemTotalUSD)}`
+                      )}
+                    </p>
                     <p className="cross" onClick={() => removeFromCart(item._id)}>
                       ×
                     </p>
@@ -93,20 +129,63 @@ const Cart = () => {
       <div className="cart-bottom">
         <div className="cart-total">
           <h2>Cart Total</h2>
+          
+          {/* Exchange Rate Info */}
+          {!currencyLoading && (
+            <div className="exchange-rate-display" style={{
+              fontSize: '0.85rem',
+              color: getRateColor(),
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginBottom: '15px',
+              padding: '8px',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '6px',
+              border: '1px solid #e9ecef'
+            }}>
+              <span>{getRateIcon()}</span>
+              <span>Current Rate: 1 USD = ₹{exchangeRate.toFixed(2)}</span>
+              {lastUpdated && (
+                <span style={{ opacity: 0.7, fontSize: '0.75rem' }}>
+                  (Updated {formatLastUpdated()})
+                </span>
+              )}
+            </div>
+          )}
+
           <div>
             <div className="cart-total-detail">
               <p>Subtotal</p>
-              <p>₹{convertToINR(getTotalCartAmount())}</p>
+              <p>
+                {currencyLoading ? (
+                  "₹..."
+                ) : (
+                  `₹${convertToINR(getTotalCartAmount())}`
+                )}
+              </p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <p>Delivery Fee</p>
-              <p>₹{convertToINR(deliveryFeeUSD)}</p>
+              <p>
+                {currencyLoading ? (
+                  "₹..."
+                ) : (
+                  `₹${convertToINR(deliveryFeeUSD)}`
+                )}
+              </p>
             </div>
             <hr />
             <div className="cart-total-detail">
               <b>Total</b>
-              <b>₹{convertToINR(totalUSD)}</b>
+              <b>
+                {currencyLoading ? (
+                  "₹..."
+                ) : (
+                  `₹${convertToINR(totalUSD)}`
+                )}
+              </b>
             </div>
           </div>
 
@@ -114,7 +193,7 @@ const Cart = () => {
             type="button"
             className={`proceed-btn ${isCartEmpty ? 'disabled' : ''}`}
             onClick={handleProceed}
-            disabled={false} 
+            disabled={false}
           >
             PROCEED TO CHECKOUT
           </button>

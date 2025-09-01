@@ -9,8 +9,7 @@ const StoreContextProvider = ({ children }) => {
   const [food_list, setFoodList] = useState([]);
   const [token, setToken] = useState("");
 
-  // const url = "http://localhost:8000"; // make sure backend runs on this port
-  const url = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const url = "http://localhost:8000"; // make sure backend runs on this port
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -55,7 +54,7 @@ const StoreContextProvider = ({ children }) => {
 
   const fetchFoodList = async () => {
     try {
-      const response = await axios.get(`${url}/api/foods/list`);
+      const response = await axios.get(`${url}/api/food/list`);
       setFoodList(response.data.data);
     } catch (error) {
       console.error("Error fetching food list:", error.message);
