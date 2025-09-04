@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../components/context/StoreContext";
-import { useCurrency } from "../../components/context/CurrencyContext"; // Import currency context
+import { useCurrency } from "../../components/context/CurrencyContext"; 
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount, url, token } =
     useContext(StoreContext);
 
-  // Use centralized currency context instead of hardcoded rate
+  
   const { 
     exchangeRate, 
     rateChange, 
@@ -22,7 +22,15 @@ const Cart = () => {
 
   const handleProceed = () => {
     console.log("Proceed button clicked!");
-    console.log("Cart total:", getTotalCartAmount());
+    
+    
+    const cartTotalUSD = getTotalCartAmount(); // This returns USD amount
+    const deliveryFeeUSD = cartTotalUSD === 0 ? 0 : 2;
+    const totalUSD = cartTotalUSD + deliveryFeeUSD;
+    
+    console.log("Cart total (USD):", cartTotalUSD);
+    console.log("Delivery fee (USD):", deliveryFeeUSD);
+    console.log("Total amount (USD):", totalUSD);
     console.log("User token:", token);
     console.log("Cart items:", cartItems);
     console.log("Current exchange rate:", exchangeRate);
@@ -32,22 +40,38 @@ const Cart = () => {
       return;
     }
 
-    if (getTotalCartAmount() === 0) {
+    if (cartTotalUSD === 0) {
       alert("Your cart is empty. Please add items to proceed.");
       return;
     }
 
     console.log("Navigating to /order...");
-    navigate("/order");
+    
+    // Pass USD amounts to maintain currency consistency
+    navigate("/order", {
+      state: {
+        cartTotal: cartTotalUSD,           // USD amount
+        deliveryFee: deliveryFeeUSD,       // USD amount  
+        totalAmount: totalUSD,             // USD amount
+        currency: 'usd',                   // set currency for Stripe
+        // Also pass INR amounts for display purposes
+        cartTotalINR: convertToINR(cartTotalUSD),
+        deliveryFeeINR: convertToINR(deliveryFeeUSD),
+        totalAmountINR: convertToINR(totalUSD),
+        exchangeRate: exchangeRate
+      }
+    });
   };
 
   if (!food_list || food_list.length === 0) {
     return <div className="loading">Loading food items...</div>;
   }
 
-  const deliveryFeeUSD = getTotalCartAmount() === 0 ? 0 : 2;
-  const totalUSD = getTotalCartAmount() + deliveryFeeUSD;
-  const isCartEmpty = getTotalCartAmount() === 0;
+  // Calculate amounts in USD (base currency)
+  const cartTotalUSD = getTotalCartAmount();
+  const deliveryFeeUSD = cartTotalUSD === 0 ? 0 : 2;
+  const totalUSD = cartTotalUSD + deliveryFeeUSD;
+  const isCartEmpty = cartTotalUSD === 0;
 
   // Helper functions for rate display
   const getRateIcon = () => {
@@ -92,7 +116,7 @@ const Cart = () => {
           food_list.map((item) => {
             const quantity = cartItems[item._id];
             if (quantity > 0) {
-              const itemTotalUSD = item.price * quantity;
+              const itemTotalUSD = item.price * quantity; // Keep in USD
               return (
                 <div key={item._id} className="cart-items-item-wrapper">
                   <div className="cart-items-item">
@@ -161,7 +185,7 @@ const Cart = () => {
                 {currencyLoading ? (
                   "₹..."
                 ) : (
-                  `₹${convertToINR(getTotalCartAmount())}`
+                  `₹${convertToINR(cartTotalUSD)}`
                 )}
               </p>
             </div>
@@ -193,7 +217,7 @@ const Cart = () => {
             type="button"
             className={`proceed-btn ${isCartEmpty ? 'disabled' : ''}`}
             onClick={handleProceed}
-            disabled={false}
+            disabled={isCartEmpty}
           >
             PROCEED TO CHECKOUT
           </button>
